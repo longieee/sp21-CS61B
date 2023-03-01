@@ -2,7 +2,7 @@ package game2048;
 
 import java.util.Formatter;
 import java.util.Observable;
-
+import java.util.Arrays;
 
 /** The state of a game of 2048.
  *  @author TODO: YOUR NAME HERE
@@ -114,11 +114,64 @@ public class Model extends Observable {
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
 
+        // We don't have to check if there's any legal move
+        // because checkGameOver already accounted for that case
+
+//        int added_score = 0;    // tracking if there's core added from move
+        // Top vacancy row: array corresponding to columns
+        // [ [row, value], [row, value], [row, value], [row, value] ]
+        // with the order is column order
+        int[][] top_vacancy_row = new int[board.size()][2];
+        int[][] prev_top_vacancy_row;
+
+        // Determine the vacancy cells of the top row (row 3)
+        // Column order will always stay the same
+        for (int col = 0; col < board.size(); col++) {
+            top_vacancy_row[col][0] = board.size()-1;
+            top_vacancy_row[col][1] = board.tile(col, board.size()-1) == null ? 0 : board.tile(col, board.size()-1).value();
+        }
+
+        // The piece on the top row (row 3) stays put, so we only process from
+        // The second row downwards
+        for (int row  = board.size()-2; row >= 0 ; row--) {
+            // Save the previous top vacancy row for comparison
+            prev_top_vacancy_row = Arrays.stream(top_vacancy_row).map(arr -> Arrays.copyOf(arr, arr.length)).toArray(int[][]::new);
+            // Process the next row to check for tilt, moving tiles will be done inside this method
+            top_vacancy_row = rowTiltProcess(row, top_vacancy_row);
+            // Check to see if there's any change
+            if (Arrays.deepEquals(prev_top_vacancy_row, top_vacancy_row)) {changed = true;}
+        }
+
         checkGameOver();
         if (changed) {
             setChanged();
         }
         return changed;
+    }
+
+    /** Helper method to process tilt for each row
+     * Process the rows from TOP downwards: 1 -> 2 -> 3 -> ...
+     * */
+    private int[][] rowTiltProcess(int row, int[][] top_vacancy_row) {
+
+        for (int col = 0; col < board.size(); col++) {
+            if (board.tile(col, row) != null) {    // Only check if tile is not empty
+                // Case move to empty top row or merge with current row -> result is 1 cell at the top
+                if (board.tile(col, row).value() == top_vacancy_row[col][1] || top_vacancy_row[col][1] == 0) {
+                    // Update value of checker list first before move
+                    top_vacancy_row[col][1] += board.tile(col, row).value();
+                    board.move(col, top_vacancy_row[col][0], board.tile(col, row));
+                }
+                // Case no merge -> move to the tile directly below
+                else {
+                    // Update top_vacancy_row to reflect movement just made
+                    top_vacancy_row[col][1] = board.tile(col, row).value();
+                    board.move(col, top_vacancy_row[col][0] - 1, board.tile(col, row));
+                    top_vacancy_row[col][0] -= 1;
+                }
+            }
+        }
+        return top_vacancy_row;
     }
 
     /** Checks if the game is over and sets the gameOver variable
@@ -172,9 +225,8 @@ public class Model extends Observable {
     public static boolean atLeastOneMoveExists(Board b) {
         if (emptySpaceExists(b)) {
             return true;
-        } else { /** If there is no empty space, then there must
-                 be 2 adjacent tiles with the same value
-                */
+        }
+        else { //If there is no empty space, then there must be 2 adjacent tiles with the same value
             // Can move left/right?
             for (int row = 0; row < b.size() ; row++) {
                 for (int col = 0; col < b.size() - 1 ; col++) {
