@@ -109,14 +109,11 @@ public class Model extends Observable {
     public boolean tilt(Side side) {
         boolean changed;
         changed = false;
-
-        // TODO: Modify this.board (and perhaps this.score) to account
-        // for the tilt to the Side SIDE. If the board changed, set the
-        // changed local variable to true.
-
         // We don't have to check if there's any legal move
         // because checkGameOver already accounted for that case
 
+        // Rotate the table so that the side given behaves as NORTH in this method
+        board.setViewingPerspective(side);
         // Top vacancy row: array corresponding to columns
         // [ [row, value, just_merged?], [row, value, just_merged?], ...]
         // with the order is column order
@@ -139,18 +136,30 @@ public class Model extends Observable {
             // Process the next row to check for tilt, moving tiles will be done inside this method
             top_vacancy_row = rowTiltProcess(row, top_vacancy_row);
             // Check to see if there's any change
-            if (Arrays.deepEquals(prev_top_vacancy_row, top_vacancy_row)) {changed = true;}
+            for (int col = 0; col < board.size(); col++) {
+                if (top_vacancy_row[col][1] != prev_top_vacancy_row[col][1] || top_vacancy_row[col][0] != prev_top_vacancy_row[col][0]) {
+                    changed = true;
+                    break;
+                }
+            }
         }
 
         checkGameOver();
         if (changed) {
             setChanged();
         }
+
+        // Rotate the table to original after we've done tilting north
+        board.setViewingPerspective(Side.NORTH);
+
         return changed;
     }
 
     /** Helper method to process tilt for each row
      * Process the rows from TOP downwards: ... -> 2 -> 1 -> 0
+     * This method handles the board as if the direction of tilt is always NORTH
+     * (For other direction, the setViewingPerspective method helps to rotate the table
+     * so that the tilt is always NORTH)
      * */
     private int[][] rowTiltProcess(int row, int[][] top_vacancy_row) {
 
@@ -178,6 +187,8 @@ public class Model extends Observable {
                     board.move(col, top_vacancy_row[col][0] - 1, board.tile(col, row));
                     // Top available row for merge should be updated only after move
                     top_vacancy_row[col][0] -= 1;
+                    // Reset just_merged status so this tile is ready for merge again
+                    top_vacancy_row[col][2] = 0;
                 }
             }
         }
