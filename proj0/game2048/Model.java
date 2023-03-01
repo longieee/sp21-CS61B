@@ -117,11 +117,10 @@ public class Model extends Observable {
         // We don't have to check if there's any legal move
         // because checkGameOver already accounted for that case
 
-//        int added_score = 0;    // tracking if there's core added from move
         // Top vacancy row: array corresponding to columns
-        // [ [row, value], [row, value], [row, value], [row, value] ]
+        // [ [row, value, just_merged?], [row, value, just_merged?], ...]
         // with the order is column order
-        int[][] top_vacancy_row = new int[board.size()][2];
+        int[][] top_vacancy_row = new int[board.size()][3];
         int[][] prev_top_vacancy_row;
 
         // Determine the vacancy cells of the top row (row 3)
@@ -129,11 +128,12 @@ public class Model extends Observable {
         for (int col = 0; col < board.size(); col++) {
             top_vacancy_row[col][0] = board.size()-1;
             top_vacancy_row[col][1] = board.tile(col, board.size()-1) == null ? 0 : board.tile(col, board.size()-1).value();
+            top_vacancy_row[col][2] = 0;    // 0 -> was not merge just before; 1 -> was just merged
         }
 
         // The piece on the top row (row 3) stays put, so we only process from
         // The second row downwards
-        for (int row  = board.size()-2; row >= 0 ; row--) {
+        for (int row = board.size() - 2; row >= 0 ; row--) {
             // Save the previous top vacancy row for comparison
             prev_top_vacancy_row = Arrays.stream(top_vacancy_row).map(arr -> Arrays.copyOf(arr, arr.length)).toArray(int[][]::new);
             // Process the next row to check for tilt, moving tiles will be done inside this method
@@ -150,23 +150,33 @@ public class Model extends Observable {
     }
 
     /** Helper method to process tilt for each row
-     * Process the rows from TOP downwards: 1 -> 2 -> 3 -> ...
+     * Process the rows from TOP downwards: ... -> 2 -> 1 -> 0
      * */
     private int[][] rowTiltProcess(int row, int[][] top_vacancy_row) {
 
         for (int col = 0; col < board.size(); col++) {
             if (board.tile(col, row) != null) {    // Only check if tile is not empty
-                // Case move to empty top row or merge with current row -> result is 1 cell at the top
-                if (board.tile(col, row).value() == top_vacancy_row[col][1] || top_vacancy_row[col][1] == 0) {
+                // Case move to empty tile
+                if (top_vacancy_row[col][1] == 0) {
+                    top_vacancy_row[col][1] += board.tile(col, row).value();
+                    board.move(col, top_vacancy_row[col][0], board.tile(col, row));
+                }
+                // Case merge to cell that has not been just merged before
+                else if (top_vacancy_row[col][2] == 0 && board.tile(col, row).value() == top_vacancy_row[col][1]) {
+                    // Update score from merge only in case merged
+                    score += (board.tile(col, row).value() * 2);
                     // Update value of checker list first before move
                     top_vacancy_row[col][1] += board.tile(col, row).value();
                     board.move(col, top_vacancy_row[col][0], board.tile(col, row));
+                    // Update just_merged status so next time it won't be merged again
+                    top_vacancy_row[col][2] = 1;
                 }
                 // Case no merge -> move to the tile directly below
                 else {
                     // Update top_vacancy_row to reflect movement just made
                     top_vacancy_row[col][1] = board.tile(col, row).value();
                     board.move(col, top_vacancy_row[col][0] - 1, board.tile(col, row));
+                    // Top available row for merge should be updated only after move
                     top_vacancy_row[col][0] -= 1;
                 }
             }
