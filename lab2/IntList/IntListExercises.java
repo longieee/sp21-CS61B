@@ -14,6 +14,8 @@ public class IntListExercises {
             head.first += c;
             head = head.rest;
         }
+        // Add the constant to the last element of the list
+        head.first += c;
     }
 
     /**
@@ -26,7 +28,12 @@ public class IntListExercises {
     public static void setToZeroIfMaxFEL(IntList L) {
         IntList p = L;
         while (p != null) {
-            if (firstDigitEqualsLastDigit(max(p))) {
+//            if (firstDigitEqualsLastDigit(max(p))) {
+//                p.first = 0;
+//            }
+            int currentMax = max(p);
+            boolean firstEqualsLast = firstDigitEqualsLastDigit(currentMax);
+            if (firstEqualsLast) {
                 p.first = 0;
             }
             p = p.rest;
@@ -54,7 +61,7 @@ public class IntListExercises {
         while (x > 10) {
             x = x / 10;
         }
-        int firstDigit = x % 10;
+        int firstDigit = x % 10 == 0 ? 1:x;
         return firstDigit == lastDigit;
     }
 
@@ -77,6 +84,10 @@ public class IntListExercises {
             lst.first *= lst.first;
         }
 
-        return currElemIsPrime || squarePrimes(lst.rest);
+        // Original implementation is return currElemIsPrime || squarePrimes(lst.rest);
+        // This is a short-circuit operator, meaning if currElemIsPrime == true,
+        // then squarePrimes(lst.rest) will not be evaluated, and the function terminates (no more recursive call)
+
+        return currElemIsPrime | squarePrimes(lst.rest);
     }
 }
