@@ -22,6 +22,27 @@ public class TimeAList {
     }
 
     public static void timeAListConstruction() {
-        // TODO: YOUR CODE HERE
+        int[] data_structure_size = new int[]{1000, 2000, 4000, 8000, 16000, 32000, 64000, 128000, 256000, 512000, 1024000, 2048000, 4096000, 10000000};
+        AList<Integer> Ns = new AList<>();
+        AList<Double> times = new AList<>();
+        AList<Integer> opCounts = new AList<>();
+
+        /* Perform the timing tests */
+        for (int size : data_structure_size) {
+            AList<Integer> L = new AList<>();
+            int i = 0;
+            Ns.addLast(size);
+            opCounts.addLast(size);
+            Stopwatch sw = new Stopwatch();
+            while (i < size) {
+                L.addLast(i);
+                i++;
+            }
+            double timeInSeconds = sw.elapsedTime();
+            times.addLast(timeInSeconds);
+        }
+
+        /* Print out the result table */
+        printTimingTable(Ns, times, opCounts);
     }
 }
