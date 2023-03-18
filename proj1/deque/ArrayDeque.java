@@ -81,8 +81,9 @@ public class ArrayDeque<T> {
     }
 
     public T removeLast() {
-        T lastItem = items[(nextLast-1) % items.length];
-        items[--nextLast] = null;
+        nextLast = (--nextLast) % items.length;
+        T lastItem = items[nextLast];
+        items[nextLast] = null;
         size--;
         downsize_if_needed();
         return lastItem;
