@@ -1,5 +1,6 @@
 package deque;
 
+
 public class ArrayDeque<T> {
     private T[] items;
     // what array indices hold the Deque’s front and back elements
@@ -75,7 +76,7 @@ public class ArrayDeque<T> {
         if (size == 0) {
             return null;
         }
-        nextFirst = (++nextFirst) % items.length;
+        nextFirst = Math.floorMod(++nextFirst, items.length);
         T firstItem = items[nextFirst];
         items[nextFirst] = null;
         size--;
@@ -87,7 +88,7 @@ public class ArrayDeque<T> {
         if (size == 0) {
             return null;
         }
-        nextLast = (--nextLast) % items.length;
+        nextLast = Math.floorMod(--nextLast, items.length);
         T lastItem = items[nextLast];
         items[nextLast] = null;
         size--;
@@ -96,7 +97,12 @@ public class ArrayDeque<T> {
     }
 
     public T get(int index) {
-        return items[(((nextFirst + 1) % items.length) + index) % items.length];
+        if (index >= 0) {
+            // Does not need Math.floorMod because all the numbers are positive
+            return items[(((nextFirst + 1) % items.length) + index) % items.length];
+        } else {
+            return items[Math.floorMod(nextLast + index, items.length)];
+        }
     }
 
 //    public Iterator<T> iterator() {
