@@ -53,27 +53,39 @@ public class ArrayDequeTest {
         ad1.printDeque();
         String expected = "2 3 \n";
         assertEquals("Deque should be '2 3 '", expected, outContent.toString());
+
+        removed = ad1.removeLast();
+        assertEquals("Size should be 1", 1, ad1.size());
+        assertEquals("Removed item should be 3", 3, removed);
+
+        removed = ad1.removeLast();
+        assertEquals("Size should be 0", 0, ad1.size());
+        assertEquals("Removed item should be 2", 2, removed);
+
+        assertNull("Removed item should be null", ad1.removeLast());
     }
 
     @Test
     public void getTest() {
         ArrayDeque<Integer> ad1 = new ArrayDeque<>();
-        int get_result;
 
-        /* Array: 2 1 3 4 */
+        /* Array: 2  1  3  4
+        * Index:  0  1  2  3
+        * Index:  0 -3 -2 -1
+        * */
+
         ad1.addFirst(1);
         ad1.addFirst(2);
         ad1.addLast(3);
         ad1.addLast(4);
 
-        get_result = ad1.get(0);
-        assertEquals("Index 0 should be 2", 2, get_result);
-        get_result = ad1.get(1);
-        assertEquals("Index 1 should be 1", 1, get_result);
-        get_result = ad1.get(2);
-        assertEquals("Index 2 should be 3", 3, get_result);
-        get_result = ad1.get(3);
-        assertEquals("Index 3 should be 4", 4, get_result);
+        assertEquals("Index 0 should be 2", 2, (int) ad1.get(0));
+        assertEquals("Index 1 should be 1", 1, (int) ad1.get(1));
+        assertEquals("Index 2 should be 3", 3, (int) ad1.get(2));
+        assertEquals("Index 3 should be 4", 4, (int) ad1.get(3));
+        assertEquals("Index -3 should be 1", 1, (int) ad1.get(-3));
+        assertEquals("Index -2 should be 3", 3, (int) ad1.get(-2));
+        assertEquals("Index -1 should be 4", 4, (int) ad1.get(-1));
     }
 
     @Test
