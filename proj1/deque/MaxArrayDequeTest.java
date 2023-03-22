@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
 import static org.junit.Assert.assertFalse;
 
 public class MaxArrayDequeTest {
-    Comparator<Integer> defaultComparator = (o1, o2) -> o1.compareTo(o2);
+    Comparator<Integer> defaultComparator = Integer::compareTo;
 
     @Test
     /* Adds an item, then removes an item, and ensures that dll is empty afterwards. */
