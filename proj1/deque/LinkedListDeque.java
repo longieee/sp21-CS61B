@@ -144,6 +144,7 @@ public class LinkedListDeque<T> {
         return new LinkedListDequeIterator();
     }
 
+    @Override
     public boolean equals(Object o) {
         boolean is_equal = true;
         if (o instanceof LinkedListDeque && ((LinkedListDeque<?>) o).size == this.size) { // Only compare if the object is another LinkedListDeque

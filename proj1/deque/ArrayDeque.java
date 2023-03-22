@@ -109,6 +109,7 @@ public class ArrayDeque<T> {
 //        return new ArrayDequeIterator();
 //    }
 
+    @Override
     public boolean equals(Object o) {
         boolean is_equal = true;
         if (o instanceof ArrayDeque && ((ArrayDeque<?>) o).size == this.size) { // Only compare if the object is another LinkedListDeque
