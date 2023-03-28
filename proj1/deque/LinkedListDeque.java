@@ -1,7 +1,6 @@
 package deque;
 
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 
 import static java.lang.Math.abs;
 
@@ -146,27 +145,17 @@ public class LinkedListDeque<T> {
 
     @Override
     public boolean equals(Object o) {
-        boolean is_equal = true;
-        if (o instanceof LinkedListDeque && ((LinkedListDeque<?>) o).size == this.size) { // Only compare if the object is another LinkedListDeque
-            ItemNode current_o = (ItemNode) ((LinkedListDeque<?>) o).sentinel.next;
-            ItemNode current_this = this.sentinel.next;
-            for (int i =0; i < size; i++) {
-                try {
-                    if (current_o.item != current_this.item) {
-                        is_equal = false;
-                        break;
-                    }
-                    current_o = current_o.next;
-                    current_this = current_this.next;
-                } catch (Exception e) {
-                    is_equal = false;
-                    break;
+        if (this == o) { return true; }
+        if (o instanceof LinkedListDeque compObj && compObj.size == this.size) { // Only compare if the object is another LinkedListDeque
+            for (int i=0; i<size; i++) {
+                if (this.get(i) != compObj.get(i)) {
+                    return false;
                 }
             }
         } else {
-            is_equal = false;
+            return false;
         }
-        return is_equal;
+        return true;
     }
 
     private class ItemNode {
@@ -186,14 +175,11 @@ public class LinkedListDeque<T> {
         // return whether there are more elements in the array that
         // have not been iterated over.
         public boolean hasNext() {
-            return current.next == sentinel;
+            return current.next != sentinel;
         }
         // return the next element of the iteration and move the current
         // index to the element after that.
         public T next() {
-            if (!hasNext()) {
-                throw new NoSuchElementException();
-            }
             T return_value = current.item;
             current = current.next;
             return return_value;

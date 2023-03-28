@@ -1,8 +1,9 @@
 package deque;
 
 import java.util.Comparator;
+import java.util.Iterator;
 
-public class MaxArrayDeque<T> {
+public class MaxArrayDeque<T> implements Iterable<T> {
     private T[] items;
     // what array indices hold the Deque’s front and back elements
     private int nextFirst;
@@ -104,9 +105,7 @@ public class MaxArrayDeque<T> {
     }
 
     public T removeFirst() {
-        if (size == 0) {
-            return null;
-        }
+        if (size == 0) { return null; }
         nextFirst = Math.floorMod(++nextFirst, items.length);
         T firstItem = items[nextFirst];
         items[nextFirst] = null;
@@ -116,9 +115,7 @@ public class MaxArrayDeque<T> {
     }
 
     public T removeLast() {
-        if (size == 0) {
-            return null;
-        }
+        if (size == 0) { return null; }
         nextLast = Math.floorMod(--nextLast, items.length);
         T lastItem = items[nextLast];
         items[nextLast] = null;
@@ -136,46 +133,31 @@ public class MaxArrayDeque<T> {
         }
     }
 
-//    public Iterator<T> iterator() {
-//        return new MaxArrayDequeIterator();
-//    }
+    public Iterator<T> iterator() { return new MaxArrayDequeIterator(); }
 
+    @Override
     public boolean equals(Object o) {
-        boolean is_equal = true;
-        if (o instanceof MaxArrayDeque && ((MaxArrayDeque<?>) o).size == this.size) { // Only compare if the object is another LinkedListDeque
+        if (this == o) { return true; }
+        if (o instanceof MaxArrayDeque compObj && compObj.size == this.size) { // Only compare if the object is another MaxArrayDeque
             for (int i = 0; i < size; i++) {
-                try {
-                    if (this.get(i) != ((MaxArrayDeque<?>) o).get(i)) {
-                        is_equal = false;
-                        break;
-                    }
-                } catch (Exception e) {
-                    is_equal = false;
-                    break;
-                }
+                if (this.get(i) != compObj.get(i)) { return false; }
             }
-        } else {
-            is_equal = false;
-        }
-        return is_equal;
+        } else { return false; }
+        return true;
     }
 
-//    private class MaxArrayDequeIterator implements Iterator<T> {
-//        T current = null;    // The current element we're looking at
-//        // return whether there are more elements in the array that
-//        // have not been iterated over.
-//        public boolean hasNext() {
-//            return false;
-//        }
-//        // return the next element of the iteration and move the current
-//        // index to the element after that.
-//        public T next() {
-//            if (!hasNext()) {
-//                throw new NoSuchElementException();
-//            }
-//            T return_value = current.item;
-//            current = current.next;
-//            return return_value;
-//        }
-//    }
+
+    private class MaxArrayDequeIterator implements Iterator<T> {
+        int currentPos = 0;    // The current element we're looking at
+        // return whether there are more elements in the array that
+        // have not been iterated over.
+        public boolean hasNext() {
+            return currentPos < size;
+        }
+        // return the next element of the iteration and move the current
+        // index to the element after that.
+        public T next() {
+            return get(currentPos++);
+        }
+    }
 }

@@ -1,7 +1,11 @@
 package deque;
 
 
-public class ArrayDeque<T> {
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+public class ArrayDeque<T> implements Iterable<T>{
     private T[] items;
     // what array indices hold the Deque’s front and back elements
     private int nextFirst;
@@ -66,10 +70,14 @@ public class ArrayDeque<T> {
     }
 
     public void printDeque() {
-        for (int i = 0; i < size; i++) {
-            System.out.print(this.get(i) + " ");
+        List<String> listOfItems = new ArrayList<>();
+        for (T i:this) {
+            listOfItems.add(i.toString());
         }
-        System.out.println();
+        String output = "[" +
+                String.join(" ", listOfItems) +
+                "]";
+        System.out.println(output);
     }
 
     public T removeFirst() {
@@ -96,6 +104,7 @@ public class ArrayDeque<T> {
         return lastItem;
     }
 
+    /* Get the item in the ArrayDeque by index */
     public T get(int index) {
         if (index >= 0) {
             // Does not need Math.floorMod because all the numbers are positive
@@ -105,47 +114,36 @@ public class ArrayDeque<T> {
         }
     }
 
-//    public Iterator<T> iterator() {
-//        return new ArrayDequeIterator();
-//    }
+    public Iterator<T> iterator() {
+        return new ArrayDequeIterator();
+    }
 
     @Override
     public boolean equals(Object o) {
-        boolean is_equal = true;
-        if (o instanceof ArrayDeque && ((ArrayDeque<?>) o).size == this.size) { // Only compare if the object is another LinkedListDeque
-            for (int i = 0; i < size; i++) {
-                try {
-                    if (this.get(i) != ((ArrayDeque<?>) o).get(i)) {
-                        is_equal = false;
-                        break;
-                    }
-                } catch (Exception e) {
-                    is_equal = false;
-                    break;
+        if (this == o) { return true; }
+        if (o instanceof ArrayDeque compObj && compObj.size == this.size) { // Only compare if the object is another ArrayDeque
+            for (int i=0; i<size; i++) {
+                if (this.get(i) != compObj.get(i)) {
+                    return false;
                 }
             }
         } else {
-            is_equal = false;
+            return false;
         }
-        return is_equal;
+        return true;
     }
 
-//    private class ArrayDequeIterator implements Iterator<T> {
-//        T current = null;    // The current element we're looking at
-//        // return whether there are more elements in the array that
-//        // have not been iterated over.
-//        public boolean hasNext() {
-//            return false;
-//        }
-//        // return the next element of the iteration and move the current
-//        // index to the element after that.
-//        public T next() {
-//            if (!hasNext()) {
-//                throw new NoSuchElementException();
-//            }
-//            T return_value = current.item;
-//            current = current.next;
-//            return return_value;
-//        }
-//    }
+    private class ArrayDequeIterator implements Iterator<T> {
+        int currentPos = 0;    // The current element we're looking at
+        // return whether there are more elements in the array that
+        // have not been iterated over.
+        public boolean hasNext() {
+            return currentPos < size;
+        }
+        // return the next element of the iteration and move the current
+        // index to the element after that.
+        public T next() {
+            return get(currentPos++);
+        }
+    }
 }
