@@ -138,9 +138,9 @@ public class MaxArrayDeque<T> implements Deque<T> {
     @Override
     public boolean equals(Object o) {
         if (this == o) { return true; }
-        if (o instanceof MaxArrayDeque compObj && compObj.size == this.size) { // Only compare if the object is another MaxArrayDeque
+        if (o instanceof MaxArrayDeque && ((MaxArrayDeque<?>) o).size == this.size) { // Only compare if the object is another MaxArrayDeque
             for (int i = 0; i < size; i++) {
-                if (this.get(i) != compObj.get(i)) { return false; }
+                if (this.get(i) != ((MaxArrayDeque<?>) o).get(i)) { return false; }
             }
         } else { return false; }
         return true;

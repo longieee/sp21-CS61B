@@ -121,9 +121,9 @@ public class ArrayDeque<T> implements Deque<T> {
     @Override
     public boolean equals(Object o) {
         if (this == o) { return true; }
-        if (o instanceof ArrayDeque compObj && compObj.size == this.size) { // Only compare if the object is another ArrayDeque
+        if (o instanceof ArrayDeque && ((ArrayDeque<?>) o).size == this.size) { // Only compare if the object is another ArrayDeque
             for (int i=0; i<size; i++) {
-                if (this.get(i) != compObj.get(i)) {
+                if (this.get(i) != ((ArrayDeque<?>) o).get(i)) {
                     return false;
                 }
             }
