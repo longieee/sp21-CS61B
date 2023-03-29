@@ -3,7 +3,7 @@ package deque;
 import java.util.Comparator;
 import java.util.Iterator;
 
-public class MaxArrayDeque<T> implements Iterable<T> {
+public class MaxArrayDeque<T> implements Deque<T> {
     private T[] items;
     // what array indices hold the Deque’s front and back elements
     private int nextFirst;

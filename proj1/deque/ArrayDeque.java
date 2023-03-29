@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class ArrayDeque<T> implements Iterable<T>{
+public class ArrayDeque<T> implements Deque<T> {
     private T[] items;
     // what array indices hold the Deque’s front and back elements
     private int nextFirst;
@@ -71,8 +71,8 @@ public class ArrayDeque<T> implements Iterable<T>{
 
     public void printDeque() {
         List<String> listOfItems = new ArrayList<>();
-        for (T i:this) {
-            listOfItems.add(i.toString());
+        for (int i=0; i<size; i++) {
+            listOfItems.add(get(i).toString());
         }
         String output = "[" +
                 String.join(" ", listOfItems) +

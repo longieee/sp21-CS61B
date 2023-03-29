@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 import static java.lang.Math.abs;
 
-public class LinkedListDeque<T> {
+public class LinkedListDeque<T> implements Deque<T> {
     /* If the first item exists, then it's at sentinel.next */
     private final ItemNode sentinel;
     private int size;
