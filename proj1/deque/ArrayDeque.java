@@ -1,9 +1,6 @@
 package deque;
 
-
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 public class ArrayDeque<T> implements Deque<T> {
     private T[] items;
@@ -70,13 +67,13 @@ public class ArrayDeque<T> implements Deque<T> {
     }
 
     public void printDeque() {
-        List<String> listOfItems = new ArrayList<>();
+        StringBuilder output = new StringBuilder();
+        output.append('[');
         for (int i=0; i<size; i++) {
-            listOfItems.add(get(i).toString());
+            output.append(get(i).toString());
+            output.append(' ');
         }
-        String output = "[" +
-                String.join(" ", listOfItems) +
-                "]";
+        output.append(']');
         System.out.println(output);
     }
 
