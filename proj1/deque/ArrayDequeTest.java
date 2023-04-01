@@ -1,8 +1,11 @@
 package deque;
+
 import org.junit.Test;
-import static org.junit.Assert.*;
+
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+
+import static org.junit.Assert.*;
 
 public class ArrayDequeTest {
     @Test
@@ -70,9 +73,9 @@ public class ArrayDequeTest {
         ArrayDeque<Integer> ad1 = new ArrayDeque<>();
 
         /* Array: 2  1  3  4
-        * Index:  0  1  2  3
-        * Index:  0 -3 -2 -1
-        * */
+         * Index:  0  1  2  3
+         * Index:  0 -3 -2 -1
+         * */
 
         ad1.addFirst(1);
         ad1.addFirst(2);
@@ -163,7 +166,7 @@ public class ArrayDequeTest {
         ArrayDeque<Integer> ad2 = new ArrayDeque<>();
         ArrayDeque<Integer> ad3 = new ArrayDeque<>();
         ArrayDeque<Integer> ad4 = new ArrayDeque<>();
-        Integer[] wrong_type = new Integer[]{2,1,3,4};
+        Integer[] wrong_type = new Integer[]{2, 1, 3, 4};
 
         /* Array: 2 1 3 4 */
         ad1.addLast(2);
@@ -193,5 +196,24 @@ public class ArrayDequeTest {
         assertFalse(ad1.equals(wrong_type));
         assertFalse(ad1.equals(ad3));
         assertFalse(ad1.equals(ad4));
+    }
+
+    /* Add N items, then remove first then last and ensure they're not null. */
+    @Test
+    public void ensureResizingDoesNotCauseNull() {
+        Deque<Integer> ad1 = new ArrayDeque<>();
+        int[] N_list = new int[]{8, 16, 32, 128, 512};
+
+        for (int N : N_list) {
+            System.out.println("N = " + N);
+            for (int i = 0; i < N; i++) {
+                ad1.addLast(i);
+            }
+            // Remove first
+            ad1.removeFirst();
+            int removed = ad1.removeLast();
+            assertEquals(N - 1, removed);
+
+        }
     }
 }
