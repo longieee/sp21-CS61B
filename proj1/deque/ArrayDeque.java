@@ -57,7 +57,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     @Override
     public void addLast(T item) {
         upsizeIfNeeded();
-        items[nextLast++] = item;
+        items[Math.floorMod(nextLast++, items.length)] = item;
         size++;
     }
 
@@ -125,10 +125,11 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         if (this == o) {
             return true;
         }
-        // Only compare if the object is another ArrayDeque
-        if (o instanceof ArrayDeque && ((ArrayDeque<?>) o).size == this.size) {
+        // Only compare if the object is another Deque
+        if (o instanceof Deque && ((Deque<?>) o).size() == size) {
+            Deque<T> compObj = (Deque<T>) o;
             for (int i = 0; i < size; i++) {
-                if (this.get(i) != ((ArrayDeque<?>) o).get(i)) {
+                if (!get(i).equals(compObj.get(i))) {
                     return false;
                 }
             }
