@@ -82,25 +82,21 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
 
     @Override
     public T get(int index) {
-        T returnItem = null;
         ItemNode current = sentinel;
         // Return null if index out-of-bound
-        if (abs(index) < size) {
+        if (index >= 0 & index < size) {
             // Walk index-number-of-steps + 1 (because we start from sent.)
             // along the list to get where we needed
-            // Forward walking
-            if (index >= 0) {
-                for (int i = 0; i <= index; i++) {
-                    current = current.next;
-                }
-            } else {    // Backwards walking
-                for (int i = 0; i > index; i--) {
-                    current = current.prev;
-                }
+            for (int i = 0; i <= index; i++) {  // Forward walking
+                current = current.next;
             }
-            returnItem = current.item;
+        } else if (index < 0 & abs(index) <= size) {    // Backwards walking
+            for (int i = 0; i > index; i--) {
+                current = current.prev;
+            }
         }
-        return returnItem;
+
+        return current.item;
     }
 
     /* same as get, but use recursion
@@ -168,8 +164,8 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
     }
 
     private class ItemNode {
-        private ItemNode prev;
         private final T item;
+        private ItemNode prev;
         private ItemNode next;
 
         ItemNode(T nodeItem, ItemNode nextNode, ItemNode prevNode) {

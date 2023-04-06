@@ -13,6 +13,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     public ArrayDeque() {
         items = (T[]) new Object[8];
         nextFirst = 7;
+        nextLast = 0;
         size = 0;
     }
 
@@ -59,10 +60,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     @Override
     public void addFirst(T item) {
         upsizeIfNeeded();
-        items[nextFirst] = item;
-        nextLast = nextFirst > nextLast ? nextLast : nextLast + 1;
-        nextFirst = nextFirst == 0 ? items.length - 1 : nextFirst - 1;
-
+        items[Math.floorMod(nextFirst--, items.length)] = item;
         size++;
     }
 
@@ -121,7 +119,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     public T get(int index) {
         if (index >= 0) {
             // Does not need Math.floorMod because all the numbers are positive
-            return items[(((nextFirst + 1) % items.length) + index) % items.length];
+            return items[Math.floorMod((((nextFirst + 1) % items.length) + index), items.length)];
         } else {
             return items[Math.floorMod(nextLast + index, items.length)];
         }
