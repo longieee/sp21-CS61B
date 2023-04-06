@@ -127,10 +127,10 @@ public class LinkedListDequeTest {
         lld1.addLast(40);
 
         /*
-        * List : 10 | 20 | 30 | 40
-        * Index:  0 |  1 |  2 |  3
-        * Index:  0 | -3 | -2 | -1
-        * */
+         * List : 10 | 20 | 30 | 40
+         * Index:  0 |  1 |  2 |  3
+         * Index:  0 | -3 | -2 | -1
+         * */
 
         assertEquals("Should have the same value", 10, lld1.get(0), 0.0);
         assertEquals("Should have the same value", 20, lld1.get(1), 0.0);
@@ -227,13 +227,13 @@ public class LinkedListDequeTest {
         Deque<Integer> lld = new LinkedListDeque<>();
 
         int N = 100;
-        for (int i=0; i<N; i++) {
+        for (int i = 0; i < N; i++) {
             lld.addLast(i);
         }
 
         Iterator<Integer> iter = lld.iterator();
-        for (int i=0; i<N+1; i++) {
-            if (i<N-1) {
+        for (int i = 0; i < N + 1; i++) {
+            if (i < N - 1) {
                 assertTrue(iter.hasNext());
                 iter.next();
             } else {
