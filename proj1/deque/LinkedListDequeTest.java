@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.Iterator;
 
 import static org.junit.Assert.*;
 
@@ -219,5 +220,26 @@ public class LinkedListDequeTest {
         assertEquals("Should have the same value", 20, lld1.getRecursive(-3), 0.0);
 
         assertNull(lld1.get(4));
+    }
+
+    @Test
+    public void hasNextAfterManyCalls() {
+        Deque<Integer> lld = new LinkedListDeque<>();
+
+        int N = 100;
+        for (int i=0; i<N; i++) {
+            lld.addLast(i);
+        }
+
+        Iterator<Integer> iter = lld.iterator();
+        for (int i=0; i<N+1; i++) {
+            if (i<N-1) {
+                assertTrue(iter.hasNext());
+                iter.next();
+            } else {
+                assertFalse(iter.hasNext());
+            }
+        }
+
     }
 }
