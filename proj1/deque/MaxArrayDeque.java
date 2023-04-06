@@ -127,8 +127,8 @@ public class MaxArrayDeque<T> implements Deque<T>, Iterable<T> {
         return lastItem;
     }
 
-    @Override
     /* Get the item in the ArrayDeque by index */
+    @Override
     public T get(int index) {
         if (index >= 0) {
             // Does not need Math.floorMod because all the numbers are positive

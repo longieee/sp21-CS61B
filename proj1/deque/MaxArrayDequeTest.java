@@ -7,7 +7,6 @@ import java.io.PrintStream;
 import java.util.Comparator;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertFalse;
 
 public class MaxArrayDequeTest {
     Comparator<Integer> defaultComparator = Integer::compareTo;
@@ -170,7 +169,7 @@ public class MaxArrayDequeTest {
         MaxArrayDeque<Integer> ad2 = new MaxArrayDeque<>(defaultComparator);
         MaxArrayDeque<Integer> ad3 = new MaxArrayDeque<>(defaultComparator);
         MaxArrayDeque<Integer> ad4 = new MaxArrayDeque<>(defaultComparator);
-        Integer[] wrong_type = new Integer[]{2,1,3,4};
+        Integer[] wrong_type = new Integer[]{2, 1, 3, 4};
 
         /* Array: 2 1 3 4 */
         ad1.addLast(2);
