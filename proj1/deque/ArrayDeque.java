@@ -17,18 +17,6 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         size = 0;
     }
 
-    protected void setItems(T[] newItems) {
-        items = newItems;
-    }
-
-    protected void setNextFirst(int newNextFirst) {
-        nextFirst = newNextFirst;
-    }
-
-    protected void setSize(int newSize) {
-        size = newSize;
-    }
-
     /**
      * Resizes the underlying array to the target capacity.
      */
