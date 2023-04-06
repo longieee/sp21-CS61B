@@ -27,7 +27,7 @@ public class MaxArrayDequeTest {
         ad1.addLast(3);
         assertEquals("Size should be 3", 3, ad1.size());
 
-        String expected = "2 1 3 \n";
+        String expected = "[2 1 3 ]\n";
         ad1.printDeque();
         assertEquals("Deque should be '2 1 3'", expected, outContent.toString());
     }
@@ -57,8 +57,8 @@ public class MaxArrayDequeTest {
         assertEquals("Removed item should be 1", 1, removed);
 
         ad1.printDeque();
-        String expected = "2 3 \n";
-        assertEquals("Deque should be '2 3 '", expected, outContent.toString());
+        String expected = "[2 3 ]\n";
+        assertEquals("Deque should be '[2 3 ]'", expected, outContent.toString());
 
         removed = ad1.removeLast();
         assertEquals("Size should be 1", 1, ad1.size());
@@ -115,8 +115,12 @@ public class MaxArrayDequeTest {
         assertEquals("Size should be 9", 9, ad1.size());
 
         ad1.printDeque();
-        String expected = "1 2 3 4 5 6 7 8 10 \n";
-        assertEquals("Deque should be '1 2 3 4 5 6 7 8 10 '", expected, outContent.toString());
+        String expected = "[1 2 3 4 5 6 7 8 10 ]\n";
+        assertEquals(
+            "Deque should be '[1 2 3 4 5 6 7 8 10 ]'",
+            expected,
+            outContent.toString()
+        );
 
 
     }
@@ -143,8 +147,8 @@ public class MaxArrayDequeTest {
         assertEquals("Size should be 9", 9, ad2.size());
 
         ad2.printDeque();
-        String expected = "3 2 1 4 5 6 7 8 10 \n";
-        assertEquals("Deque should be '3 2 1 4 5 6 7 8 10 '", expected, outContent.toString());
+        String expected = "[3 2 1 4 5 6 7 8 10 ]\n";
+        assertEquals("Deque should be '[3 2 1 4 5 6 7 8 10 ]'", expected, outContent.toString());
     }
 
     @Test
