@@ -7,18 +7,21 @@ public class MaxArrayDeque<T> extends ArrayDeque<T> {
 
     /* Creates an empty array */
     public MaxArrayDeque(Comparator<T> c) {
-        items = (T[]) new Object[8];
-        nextFirst = 7;
-        size = 0;
+        T[] madItems = (T[]) new Object[8];
+        setItems(madItems);
+        int madNextFirst = 7;
+        setNextFirst(madNextFirst);
+        int madSize = 0;
+        setSize(madSize);
         comparator = c;
     }
 
     public T max() {
-        if (size == 0) {
+        if (super.size() == 0) {
             return null;
         }
         int maxDex = 0;
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < super.size(); i++) {
             int cmp = comparator.compare(this.get(i), this.get(maxDex));
             if (cmp > 0) {
                 maxDex = i;
@@ -28,11 +31,11 @@ public class MaxArrayDeque<T> extends ArrayDeque<T> {
     }
 
     public T max(Comparator<T> c) {
-        if (size == 0) {
+        if (super.size() == 0) {
             return null;
         }
         int maxDex = 0;
-        for (int i = 0; i < items.length; i++) {
+        for (int i = 0; i < super.size(); i++) {
             int cmp = c.compare(this.get(i), this.get(maxDex));
             if (cmp > 0) {
                 maxDex = i;

@@ -3,17 +3,29 @@ package deque;
 import java.util.Iterator;
 
 public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
-    protected T[] items;
+    private T[] items;
     // what array indices hold the Deque’s front and back elements
-    protected int nextFirst;
-    protected int nextLast;
-    protected int size;
+    private int nextFirst;
+    private int nextLast;
+    private int size;
 
     /* Creates an empty array */
     public ArrayDeque() {
         items = (T[]) new Object[8];
         nextFirst = 7;
         size = 0;
+    }
+
+    protected void setItems(T[] newItems) {
+        items = newItems;
+    }
+
+    protected void setNextFirst(int newNextFirst) {
+        nextFirst = newNextFirst;
+    }
+
+    protected void setSize(int newSize) {
+        size = newSize;
     }
 
     /**
