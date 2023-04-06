@@ -22,8 +22,8 @@ public class RandomizedDequeTest {
 //            System.out.println("Added: " + addedElement);
         }
 
-        assertTrue("LinkedListDeque and ArrayDeque with the same elements should be equal", ad1.equals(lld1));
-        assertTrue("LinkedListDeque and ArrayDeque with the same elements should be equal", lld1.equals(ad1));
+        assertTrue(ad1.equals(lld1));
+        assertTrue(lld1.equals(ad1));
     }
 
     @Test
@@ -37,8 +37,8 @@ public class RandomizedDequeTest {
             ad1.addLast(addedElement);
             lld1.addLast(addedElement);
         }
-        assertTrue("LinkedListDeque and ArrayDeque with the same elements should be equal", ad1.equals(lld1));
-        assertTrue("LinkedListDeque and ArrayDeque with the same elements should be equal", lld1.equals(ad1));
+        assertTrue(ad1.equals(lld1));
+        assertTrue(lld1.equals(ad1));
     }
 
     @Test
@@ -61,7 +61,7 @@ public class RandomizedDequeTest {
 
         int first = 0;
         int last = 0;
-        int size_from_test = 0;
+        int sizeFromTest = 0;
 
         int N = 100000;  // Number of operations
         for (int i = 0; i < N; i += 1) {
@@ -69,22 +69,22 @@ public class RandomizedDequeTest {
 
             if (operationNumber == 0) {
                 first = StdRandom.uniform(N);
-                if (size_from_test == 0) {
+                if (sizeFromTest == 0) {
                     last = first;
                 }
                 lld.addFirst(first);
-                size_from_test++;
+                sizeFromTest++;
 //                System.out.println("LinkedListDeque.addFirst(" + first + ")");
             } else if (operationNumber == 1) {
                 last = StdRandom.uniform(N);
-                if (size_from_test == 0) {
+                if (sizeFromTest == 0) {
                     first = last;
                 }
                 lld.addLast(last);
-                size_from_test++;
+                sizeFromTest++;
 //                System.out.println("LinkedListDeque.addLast(" + last + ")");
             } else if (operationNumber == 2) {
-                if (size_from_test == 0) {
+                if (sizeFromTest == 0) {
                     assertTrue(lld.isEmpty());
                 } else {
                     assertFalse(lld.isEmpty());
@@ -101,7 +101,7 @@ public class RandomizedDequeTest {
                 } else {
                     first = 0;
                 }
-                size_from_test--;
+                sizeFromTest--;
             } else {
                 if (lld.size() == 0) {
                     continue;
@@ -114,7 +114,7 @@ public class RandomizedDequeTest {
                 } else {
                     last = 0;
                 }
-                size_from_test--;
+                sizeFromTest--;
             }
         }
     }
@@ -140,7 +140,7 @@ public class RandomizedDequeTest {
 
         int first = 0;
         int last = 0;
-        int size_from_test = 0;
+        int sizeFromTest = 0;
 
         int N = 100000;  // Number of operations
         for (int i = 0; i < N; i += 1) {
@@ -148,22 +148,22 @@ public class RandomizedDequeTest {
 
             if (operationNumber == 0) {
                 first = StdRandom.uniform(N);
-                if (size_from_test == 0) {
+                if (sizeFromTest == 0) {
                     last = first;
                 }
                 ad.addFirst(first);
-                size_from_test++;
+                sizeFromTest++;
 //                System.out.println("ArrayDeque.addFirst(" + first + ")");
             } else if (operationNumber == 1) {
                 last = StdRandom.uniform(N);
-                if (size_from_test == 0) {
+                if (sizeFromTest == 0) {
                     first = last;
                 }
                 ad.addLast(last);
-                size_from_test++;
+                sizeFromTest++;
 //                System.out.println("ArrayDeque.addLast(" + last + ")");
             } else if (operationNumber == 2) {
-                if (size_from_test == 0) {
+                if (sizeFromTest == 0) {
                     assertTrue(ad.isEmpty());
                 } else {
                     assertFalse(ad.isEmpty());
@@ -180,7 +180,7 @@ public class RandomizedDequeTest {
                 } else {
                     first = 0;
                 }
-                size_from_test--;
+                sizeFromTest--;
             } else {
                 if (ad.size() == 0) {
                     continue;
@@ -193,7 +193,7 @@ public class RandomizedDequeTest {
                 } else {
                     last = 0;
                 }
-                size_from_test--;
+                sizeFromTest--;
             }
         }
     }
@@ -205,7 +205,7 @@ public class RandomizedDequeTest {
 
         int first = 0;
         int last = 0;
-        int size_from_test = 0;
+        int sizeFromTest = 0;
 
         int N = 100000;  // Number of operations
         for (int i = 0; i < N; i += 1) {
@@ -213,22 +213,22 @@ public class RandomizedDequeTest {
 
             if (operationNumber == 0) {
                 first = StdRandom.uniform(N);
-                if (size_from_test == 0) {
+                if (sizeFromTest == 0) {
                     last = first;
                 }
                 mad.addFirst(first);
-                size_from_test++;
+                sizeFromTest++;
 //                System.out.println("MaxArrayDeque.addFirst(" + first + ")");
             } else if (operationNumber == 1) {
                 last = StdRandom.uniform(N);
-                if (size_from_test == 0) {
+                if (sizeFromTest == 0) {
                     first = last;
                 }
                 mad.addLast(last);
-                size_from_test++;
+                sizeFromTest++;
 //                System.out.println("MaxArrayDeque.addLast(" + last + ")");
             } else if (operationNumber == 2) {
-                if (size_from_test == 0) {
+                if (sizeFromTest == 0) {
                     assertTrue(mad.isEmpty());
                 } else {
                     assertFalse(mad.isEmpty());
@@ -245,7 +245,7 @@ public class RandomizedDequeTest {
                 } else {
                     first = 0;
                 }
-                size_from_test--;
+                sizeFromTest--;
             } else {
                 if (mad.size() == 0) {
                     continue;
@@ -258,7 +258,7 @@ public class RandomizedDequeTest {
                 } else {
                     last = 0;
                 }
-                size_from_test--;
+                sizeFromTest--;
             }
         }
     }
