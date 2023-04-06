@@ -233,7 +233,7 @@ public class LinkedListDequeTest {
 
         Iterator<Integer> iter = lld.iterator();
         for (int i = 0; i < N + 1; i++) {
-            if (i < N - 1) {
+            if (i < N) {
                 assertTrue(iter.hasNext());
                 iter.next();
             } else {
