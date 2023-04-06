@@ -182,7 +182,7 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
         // have not been iterated over.
         @Override
         public boolean hasNext() {
-            return current.next != sentinel;
+            return current != sentinel;
         }
 
         // return the next element of the iteration and move the current
