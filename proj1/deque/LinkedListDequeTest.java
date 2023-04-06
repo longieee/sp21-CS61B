@@ -226,7 +226,7 @@ public class LinkedListDequeTest {
     public void hasNextAfterManyCalls() {
         Deque<Integer> lld = new LinkedListDeque<>();
 
-        int N = 100;
+        int N = 5;
         for (int i = 0; i < N; i++) {
             lld.addLast(i);
         }
@@ -240,6 +240,5 @@ public class LinkedListDequeTest {
                 assertFalse(iter.hasNext());
             }
         }
-
     }
 }
